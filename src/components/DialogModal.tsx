@@ -100,7 +100,7 @@ const DialogModal = ({
   useEffect(() => {
     if (isOpened) {
       ref.current?.showModal();
-      document.body.classList.add("modal-open"); // prevent bg scroll
+      document.body.classList.add("modal-open"); 
     } else {
       ref.current?.close();
       document.body.classList.remove("modal-open");
