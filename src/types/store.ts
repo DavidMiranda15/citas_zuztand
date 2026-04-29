@@ -1,28 +1,61 @@
 import { create } from 'zustand'
-import type { DraftPatient, Patient } from '../types'
-import { v4 as uuidv4 } from 'uuid'
+import { persist } from 'zustand/middleware'
+import type { DraftPatient, Patient } from '../types';
+import { v4 as uuidv4 } from 'uuid';
 
-
-// 1. Definir el tipo del estado
 type PacientesState = {
     pacientes: Patient[];
+    pacienteActivo: Patient | null;
     agregarPaciente: (data: DraftPatient) => void;
+    eliminarPaciente: (id: Patient['id']) => void;
+    establecerPacienteActivo: (paciente: Patient) => void;
+    actualizarPaciente: (id: Patient['id'], data: DraftPatient) => void;
+    limpiarPacienteActivo: () => void;
 }
 
+const crearPaciente = (data: DraftPatient): Patient => ({
+    id: uuidv4(),
+    ...data
+})
 
-// 2. Función auxiliar para crear un paciente con ID
-const crearPaciente = (data: DraftPatient): Patient => {
-    return {
-        id: uuidv4(),
-        ...data
-    }
-}
+export const usePacienteStore = create<PacientesState>()(   
+    persist(
+        (set) => ({
+            pacientes: [],
+            pacienteActivo: null,
+
+            agregarPaciente: (data) =>
+                set((state) => ({
+                    pacientes: [...state.pacientes, crearPaciente(data)]
+                })),
+
+            eliminarPaciente: (id) =>
+                set((state) => ({
+                    pacientes: state.pacientes.filter(p => p.id !== id),
+                    pacienteActivo: state.pacienteActivo?.id === id ? null : state.pacienteActivo
+                })),
+
+            establecerPacienteActivo: (paciente) =>
+                set(() => ({ pacienteActivo: paciente })),
+
+            actualizarPaciente: (id, data) =>
+                set((state) => ({
+                    pacientes: state.pacientes.map(p =>
+                        p.id === id
+                            ? { ...data, id } 
+                            : p
+                    ),
+                    pacienteActivo: null 
+                })),
+
+            limpiarPacienteActivo: () =>
+                set(() => ({ pacienteActivo: null })),
+        }),
+        {
+            name: 'pacientes-storage',
+            partialize: (state) => ({ pacientes: state.pacientes })
+        }
+    )
+)
 
 
-// 3. Crear el store
-export const usePacienteStore = create<PacientesState>((set) => ({
-    pacientes: [],
-    agregarPaciente: (data) => set((state) => ({
-        pacientes: [...state.pacientes, crearPaciente(data)]
-    }))
-}))

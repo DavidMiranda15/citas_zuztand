@@ -1,1 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,700;9..144,800&display=swap');
 @import "tailwindcss";
+
+:root {
+	--bg-soft: #f4f7f8;
+	--bg-accent: #e8f6f2;
+	--ink-900: #1b2b34;
+	--ink-700: #2f4a56;
+	--ink-500: #5f7985;
+	--line: #d6e3e8;
+	--brand: #0f766e;
+	--brand-strong: #115e59;
+	--danger: #b42318;
+	--card: #ffffffd9;
+}
+
+html,
+body,
+#root {
+	min-height: 100%;
+}
+
+body {
+	margin: 0;
+	font-family: 'Sora', sans-serif;
+	color: var(--ink-900);
+	background:
+		radial-gradient(circle at 10% 12%, #d7efe8 0%, transparent 28%),
+		radial-gradient(circle at 88% 84%, #cfe9ff 0%, transparent 34%),
+		linear-gradient(160deg, var(--bg-soft), #eef4f7 60%, var(--bg-accent));
+}
+
+h1,
+h2,
+h3 {
+	font-family: 'Fraunces', serif;
+	letter-spacing: 0.01em;
+}
+
+.app-shell {
+	max-width: 1240px;
+	margin: 0 auto;
+	padding: 36px 16px 40px;
+}
+
+.glass-panel {
+	background: var(--card);
+	border: 1px solid #ffffff;
+	backdrop-filter: blur(6px);
+	box-shadow: 0 22px 54px rgba(21, 58, 72, 0.12);
+}
+
+.eyebrow {
+	display: inline-block;
+	border: 1px solid var(--line);
+	color: var(--ink-700);
+	background: #ffffffb8;
+	border-radius: 999px;
+	padding: 6px 12px;
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.field-input {
+	width: 100%;
+	border: 1px solid var(--line);
+	border-radius: 10px;
+	padding: 12px 14px;
+	color: var(--ink-900);
+	background: #ffffff;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field-input:focus {
+	outline: none;
+	border-color: #7dc7be;
+	box-shadow: 0 0 0 4px rgba(125, 199, 190, 0.25);
+}
+
+.btn-primary {
+	background: linear-gradient(135deg, var(--brand), #0d9488);
+	color: #fff;
+}
+
+.btn-primary:hover {
+	background: linear-gradient(135deg, var(--brand-strong), #0f766e);
+}
+
+.btn-neutral {
+	background: #dbe7ec;
+	color: var(--ink-700);
+}
+
+.btn-neutral:hover {
+	background: #cbdbe2;
+}
+
+.btn-danger {
+	background: linear-gradient(135deg, #dc4d3f, var(--danger));
+	color: #fff;
+}
+
+.btn-danger:hover {
+	background: linear-gradient(135deg, #c53d30, #8f2219);
+}
